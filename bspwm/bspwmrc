@@ -1,0 +1,49 @@
+#! /bin/sh
+
+# Kill previous x-hotkey daemon and start new one
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+# Setup uw monitor
+# Careful of jank if not connected
+xrandr --output eDP1 --primary --mode 1920x1080 --rotate normal --output HDMI1 --mode 3440x1440 --rotate normal --right-of eDP1
+
+# 4 virtual monitors
+bspc monitor -d I II III IV
+
+# Window spacing
+bspc config border_width         2
+bspc config window_gap          12
+
+bspc config split_ratio          0.52
+
+# Monocle(tmux like zoom) is like fullscreen
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+# Apps that shall be floating when openened
+bspc rule -a firefox state=floating
+bspc rule -a thunar state=floating
+
+# Border colors
+bspc config focused_border_color #ffa500
+#normal_border_color, active_border_color
+
+# Make rounded corners??
+bspc config border_radius 1
+
+## Mouse for moving and resizing floating windows
+# NOTE: need to hold the super key(pointer_modifier) to do these actions
+#   Set mouse 1 to move floating windows
+bspc config pointer_action1 move
+
+#   Mouse 2 button resizes the window by side
+bspc config pointer_action2 resize_side
+
+#   Mouse 3 button (right mouse) resize by corner
+bspc config pointer_action2 resize_corner
+
+
+####
+# Other stuff
+####
+polybar &

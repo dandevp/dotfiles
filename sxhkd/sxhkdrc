@@ -1,0 +1,82 @@
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+super + Return
+	kitty
+
+# program launcher
+super + space
+	rofi -show drun
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+#===============#
+# bspwm hotkeys #
+#===============#
+
+# quit/restart bspwm
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+# close and kill
+super + {w,q}
+	bspc node -{c,k}
+
+## Multi-monitor
+
+## Window navigation/layout
+
+# Vim like switching and moving of windows
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+# Fullscreen an app like in tmux
+super + m
+	bspc desktop -l next
+
+# swap the current node and the biggest window
+super + g
+	bspc node -s biggest.window
+
+# Preselect the splitting area
+super + {Left,Right,Up,Down}
+	bspc node -p {west,east,north,south}
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+## state
+# set the window state
+super + f
+	bspc node -t floating
+super + t
+	bspc node -t tiled
+super + shift + f
+	bspc node -t fullscreen
+
+# focus the older or newer node in the focus history
+#super + {o,i}
+#	bspc wm -h off; \
+#	bspc node {older,newer} -f; \
+#	bspc wm -h on
